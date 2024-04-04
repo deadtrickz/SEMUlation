@@ -21,6 +21,11 @@ From cmd
 powershell.exe -executionpolicy unrestricted ".\SEMUlator.ps1"
 ```
 
+##### Option 1: Verify And Create Rom Folders In R:\roms
+- verifies the R:\ network share exists and has the correct folders
+- based on the EmulationStation folders
+- if the folders are present, it will confirm it for you
+- if they are not there it will over to create them for you.
 ## Credits
 - dragoonDorise
 	- emudeck made this possible. I've used much of dragoonDorise scripts/github to make this work.
