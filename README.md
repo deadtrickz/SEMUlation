@@ -21,26 +21,17 @@ From cmd
 powershell.exe -executionpolicy unrestricted ".\SEMUlator.ps1"
 ```
 
-##### Option 1: Verify And Create Rom Folders In R:\roms
+##### Option 1: Verify or Create Rom Folders In R:\roms
 - verifies the R:\ network share exists and has the correct folders
 - based on the EmulationStation folders
 - if the folders are present, it will confirm it for you
 - if they are not there it will over to copy them from the "\_dev" directory
 
-##### Option 2: Copy EmulationStation's 'roms' folder to R:\
-- if you know you don't have the "R:\roms" folders created, this will copy them from the "\_dev" folder to R:\
-
-##### Option 3: Check/Create 'bios', 'images', and 'videos' folders in R:\
+##### Option 2: Check/Create 'bios', 'images', and 'videos' folders in R:\
 - verify the "bios", "images", "videos" folders exist in R:\
 - if they are not found it will offer to create them
 
-##### Option 4: Run A Diff On 2 folders"
-- Takes user input in 2 folder locations and compares them to find missing files
-- Does NOT look at file extensions
-- This is useful when trying to see what media is missing by comparing ROMs to your platforms video folder
-	- Requires the names to match, obviously
-
-##### Option 5: Copy Rom Videos From Remote Folder To Local Folder"
+##### Option 3: Copy Rom Videos From Remote Folder To Local Folder - STRICT
 - Takes user input for 3 file locations
 	- 1: The ROM folder
 	- 2: The remote video folder
@@ -50,7 +41,26 @@ powershell.exe -executionpolicy unrestricted ".\SEMUlator.ps1"
 	- filenames must match, extensions are ignored
 - 3: Copies the matched files to the local rom folder
 
-##### Option 6: Find Duplicate File Sizes In A Folder"
+##### Option 4: Copy Rom Videos From Remote Folder To Local Folder - IGNORE DESIGNATIONS - READS FOLDER NAMES ALSO
+- Functionally the same as option 3
+- ignores text inside () [] to match otherwise same filenames
+- can read folder names as filenames to match folder based games
+
+##### Option 5: Run A Diff On 2 folders
+- Takes user input in 2 folder locations and compares them to find missing files
+- Does NOT look at file extensions
+- This is useful when trying to see what media is missing by comparing ROMs to your platforms video folder
+	- Requires the names to match, obviously
+
+##### Option 6: Run A Diff On 2 Folders - Use Folders as filenames
+- Functionally the same as option 5
+- Reads folder names as filenames to match folder based games
+
+##### Option 98: Find Duplicate Filenames In A Folder
+- searches filenames to find duplicate or similar files
+- ignores text inside () [] to match otherwise same filenames
+
+##### 99: Find Duplicate File Sizes In A Folder
 - not really useful, was attempting to identify duplicates based on file size in a single directory.
 
 
