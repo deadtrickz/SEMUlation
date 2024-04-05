@@ -25,7 +25,37 @@ powershell.exe -executionpolicy unrestricted ".\SEMUlator.ps1"
 - verifies the R:\ network share exists and has the correct folders
 - based on the EmulationStation folders
 - if the folders are present, it will confirm it for you
-- if they are not there it will over to create them for you.
+- if they are not there it will over to copy them from the "\_dev" directory
+
+##### Option 2: Copy EmulationStation's 'roms' folder to R:\
+- if you know you don't have the "R:\roms" folders created, this will copy them from the "\_dev" folder to R:\
+
+##### Option 3: Check/Create 'bios', 'images', and 'videos' folders in R:\
+- verify the "bios", "images", "videos" folders exist in R:\
+- if they are not found it will offer to create them
+
+##### Option 4: Run A Diff On 2 folders"
+- Takes user input in 2 folder locations and compares them to find missing files
+- Does NOT look at file extensions
+- This is useful when trying to see what media is missing by comparing ROMs to your platforms video folder
+	- Requires the names to match, obviously
+
+##### Option 5: Copy Rom Videos From Remote Folder To Local Folder"
+- Takes user input for 3 file locations
+	- 1: The ROM folder
+	- 2: The remote video folder
+	- 3: The local video folder
+- 1: Checks the list of files in the rom folder
+- 2: Compares that to the remote video folder
+	- filenames must match, extensions are ignored
+- 3: Copies the matched files to the local rom folder
+
+##### Option 6: Find Duplicate File Sizes In A Folder"
+- not really useful, was attempting to identify duplicates based on file size in a single directory.
+
+
+---
+---
 ## Credits
 - dragoonDorise
 	- emudeck made this possible. I've used much of dragoonDorise scripts/github to make this work.
