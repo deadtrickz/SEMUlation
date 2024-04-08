@@ -4,7 +4,7 @@ function Show-Menu {
     
 ><><><><><><><><><><
 SEMUlator Rom Tools
-~ ~~~~ V0.89 ~~~~~ ~
+~ ~~~~ V0.91 ~~~~~ ~
 by Deadtrickz
 ><><><><><><><><><><
 
