@@ -329,7 +329,7 @@ function Normalize-Name {
         [string]$Name
     )
 
-    $Name -replace '\[.*?\]|\(.*?\)|_|-01|-02', '' -replace '\s+', ' ' | ForEach-Object { $_.Trim() }
+    $Name -replace '\[.*?\]|\(.*?\)|_|-01|-02|.ps3', '' -replace '\s+', ' ' | ForEach-Object { $_.Trim() }
 }
 
 # MENU
