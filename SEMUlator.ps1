@@ -15,6 +15,8 @@ by Deadtrickz
     Write-Host "4: Copy Rom Videos From Remote Folder To Local Folder - IGNORE DESIGNATIONS - READS FOLDER NAMES ALSO"
     Write-Host "5: Run A Diff On 2 folders"
     Write-Host "6: Run A Diff On 2 Folders - Use Folders as filenames"
+    Write-Host "96: Verify or Create Launchbox Rom Folders In R:\Launchbox\Games"
+    Write-Host "97: Zip Each File Individually In A Specified Directory"
     Write-Host "98: Find Duplicate Filenames In A Folder"
     Write-Host "99: Find Duplicate File Sizes In A Folder"
     Write-Host "Q: Quit"
@@ -109,13 +111,14 @@ function Copy-RomVideosToLocalFolder {
             }
         }
     }
+    Write-Host "Finished copying $filesCopied files."
 }
 
 # OPTION 4
 function Copy-RomVideosWithNamingAdjustments {
     $RomsDirectory = Read-Host "Enter the path to the ROMs directory"
-    $VideoDirectory = Read-Host "Enter the path to the videos directory"
-    $DestinationDirectory = Read-Host "Enter the path to the destination videos directory"
+    $VideoDirectory = Read-Host "Enter the path to the REMOTE video directory"
+    $DestinationDirectory = Read-Host "Enter the path to the LOCAL videos directory"
 
     if (-not (Test-Path -Path $DestinationDirectory)) {
         New-Item -Path $DestinationDirectory -ItemType Directory | Out-Null
@@ -189,6 +192,96 @@ function Compare-FoldersToFiles {
     }
 }
 
+#OPTION 96
+function Test-FoldersExist-LB {
+    $defaultFolderPath = "R:\Launchbox\Games"
+
+    $launchboxFolders = @("3DO Interactive Multiplayer", "AAE", "American Laser Games", "Amstrad CPC", "Amstrad GX4000", "Apple II", "Arcade", "Atari 2600", "Atari 5200", "Atari 7800", "Atari Jaguar", "Atari Jaguar CD", "Atari Lynx", "BBC Microcomputer System", "Capcom Play System", "Capcom Play System II", "Capcom Play System III", "Cave", "Clone Hero", "ColecoVision", "Commodore 64", "Commodore Amiga", "Commodore Amiga CD32", "Commodore CDTV", "Commodore VIC-20", "Creatronic Mega Duck", "Daphne", "Doujin Games", "Emerson Arcadia 2001", "Entex Adventure Vision", "Epoch Super Cassette Vision", "Examu Ex-Board", "Fairchild Channel F", "Fruit Machines", "GCE Vectrex", "GOG", "HB MAME", "Konami Handheld", "Magnavox Odyssey 2", "Mattel Intellivision", "Microsoft Xbox", "Microsoft Xbox 360", "MSU MD+", "MUGEN", "NEC PC Engine", "NEC PC-FX", "NEC TurboGrafx-16", "NEC TurboGrafx-CD", "Nintendo 3DS", "Nintendo 64", "Nintendo 64 HD", "Nintendo DS", "Nintendo Entertainment System", "Nintendo Entertainment System HD", "Nintendo Famicom Disk System", "Nintendo Game & Watch", "Nintendo Game Boy", "Nintendo Game Boy Advance", "Nintendo Game Boy Color", "Nintendo GameCube", "Nintendo Switch", "Nintendo Virtual Boy", "Nintendo Wii", "Nintendo Wii U", "Nokia N-Gage", "OpenBOR", "PC Engine SuperGrafx", "Philips CD-i", "Pinball Arcade", "Pinball FX2", "Pinball FX3", "Platform Categories", "Platforms", "Playlists", "PopCap", "Quiz Machines", "Recordings", "Sammy Atomiswave", "ScummVM", "Sega 32X", "Sega CD", "Sega CD 32X", "Sega Dreamcast", "Sega Game Gear", "Sega Genesis", "Sega Master System", "Sega Model 1", "Sega Model 2", "Sega Model 3", "Sega Naomi", "Sega Saturn", "Sega SG-1000", "Sega ST-V", "Sega System 16", "Sega System 24", "Sega System 32", "Sega Triforce", "Sega X Board", "Sega Y Board", "Sinclair ZX Spectrum", "Singe 2", "SNK Neo Geo AES", "SNK Neo Geo CD", "SNK Neo Geo Pocket", "SNK Neo Geo Pocket Color", "Sony Playstation", "Sony Playstation 2", "Sony Playstation 3", "Sony Playstation Vita", "Sony PSP", "Super Nintendo Entertainment System", "Super Nintendo MSU-1", "Taito NESiCAxLive", "Taito Type X", "Tekno Parrot", "Theme", "Tiger Game.com", "Tiger Handheld", "Trailer", "Videos", "Windows", "WonderSwan", "WonderSwan Color", "WoW Action Max", "ZiNc")
+
+    $userInput = Read-Host "Do you want to use default folders to check? (Y/N)"
+    
+    if ($userInput -eq 'Y' -or $userInput -eq 'y') {
+        $folderPath = $defaultFolderPath
+        $foldersToCheck = $launchboxFolders
+    } else {
+        $folderPath = Read-Host "Enter the folder path to check"
+        $foldersToCheck = $launchboxFolders
+    }
+
+    $missingFolders = @()
+    foreach ($folder in $foldersToCheck) {
+        $subFolderPath = Join-Path -Path $folderPath -ChildPath $folder
+        if (-not (Test-Path -Path $subFolderPath -PathType Container)) {
+            $missingFolders += $folder
+        }
+    }
+
+    if ($missingFolders.Count -gt 0) {
+        Write-Host "The following folders are missing in ${folderPath}:"
+        $missingFolders | ForEach-Object { Write-Host " - $_" }
+        $copy = Read-Host "Do you want to copy missing folders from _dev\Launchbox\Games? (Y/N)"
+        if ($copy -match '^[Yy]') {
+            $sourcePath = Join-Path -Path $PSScriptRoot -ChildPath "_dev\Launchbox\Games"
+            Write-Host "Copying missing folders to '$folderPath'..."
+            foreach ($missingFolder in $missingFolders) {
+                $sourceFolder = Join-Path -Path $sourcePath -ChildPath $missingFolder
+                $destinationFolder = Join-Path -Path $folderPath -ChildPath $missingFolder
+                Copy-Item -Path $sourceFolder -Destination $destinationFolder -Recurse -Force
+            }
+            Write-Host "Missing folders were successfully copied."
+        } else {
+            Write-Host "Operation aborted. No folders copied."
+        }
+    } else {
+        Write-Host "All required folders exist in $folderPath."
+    }
+}
+
+# OPTION 97
+function ZipEachFileIndividually {
+    param (
+        [string]$DirectoryPath = $(Read-Host "Please enter the directory path to zip files individually")
+    )
+    
+    # Validate the provided directory path
+    while (-not (Test-Path -Path $DirectoryPath -PathType Container)) {
+        Write-Host "The specified directory does not exist or is not valid."
+        $DirectoryPath = Read-Host "Please enter a valid directory path to zip files individually"
+    }
+
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    Add-Type -AssemblyName System.IO.Compression
+
+    # Define an array of compressed file extensions to skip
+    $compressedFileExtensions = @('.zip', '.rar', '.7z', '.tar', '.gz', '.txt')
+
+    $files = Get-ChildItem -Path $DirectoryPath -File | Where-Object { $compressedFileExtensions -notcontains $_.Extension.ToLower() }
+    foreach ($file in $files) {
+        $zipFilePath = Join-Path -Path $DirectoryPath -ChildPath ($file.BaseName + ".zip")
+        
+        if (-Not (Test-Path -Path $zipFilePath)) {
+            try {
+                $zip = [System.IO.Compression.ZipFile]::Open($zipFilePath, [System.IO.Compression.ZipArchiveMode]::Create)
+                $zipEntry = $zip.CreateEntry($file.Name, [System.IO.Compression.CompressionLevel]::Optimal)
+                $fileStream = [System.IO.File]::OpenRead($file.FullName)
+                $entryStream = $zipEntry.Open()
+                
+                $fileStream.CopyTo($entryStream)
+                $entryStream.Close()
+                $fileStream.Close()
+                $zip.Dispose()
+
+                Write-Host "Zipped $($file.Name) to $($zipFilePath)"
+            }
+            catch {
+                Write-Host "Failed to zip $($file.Name): $_"
+            }
+        } else {
+            Write-Host "Zip file already exists for $($file.Name), skipping..."
+        }
+    }
+}
+
 # OPTION 98
 function Find-DuplicateFileName {
     $Directory = Read-Host "Enter the path of the directory"
@@ -236,7 +329,7 @@ function Normalize-Name {
         [string]$Name
     )
 
-    $Name -replace '\[.*?\]|\(.*?\)', '' -replace '\s+', ' ' | ForEach-Object { $_.Trim() }
+    $Name -replace '\[.*?\]|\(.*?\)|_|-01|-02', '' -replace '\s+', ' ' | ForEach-Object { $_.Trim() }
 }
 
 # MENU
@@ -250,6 +343,8 @@ do {
         '4' { Copy-RomVideosWithNamingAdjustments }
         '5' { Compare-Files }
         '6' { Compare-FoldersToFiles }
+        '96' { Test-FoldersExist-LB }
+        '97' { ZipEachFileIndividually }
         '98' { Find-DuplicateFileName }
         '99' { Find-DuplicateFileSize }
         'q' { break }
