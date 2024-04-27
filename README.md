@@ -16,9 +16,10 @@ SMB Emulation Tools
 2) Open the Launcher .bat file and make a selection from the menu.
 
 NOTE: The launcher requires the "scripts" folder.
-Launcher.bat
-scripts
-   |----> .PS1 Files
+
+- Launcher.bat
+- scripts
+- 	|----> .PS1 Files
 
 
 ---
