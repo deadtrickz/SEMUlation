@@ -31,6 +31,7 @@ echo %ESC%[92m14: Verify or Create Bios Images Videos Folders%ESC%[0m
 echo %ESC%[92m15: Verify or Create EmulationStation Folders%ESC%[0m
 echo %ESC%[92m16: Zip Files to Zip%ESC%[0m
 echo %ESC%[92m17: Zip Folders to Zip%ESC%[0m
+echo %ESC%[92m18: Diff FILES - NORMALIZE NAMES%ESC%[0m
 
 echo %ESC%[91mPress "Q" to Quit%ESC%[0m
 
@@ -57,5 +58,6 @@ if "%choice%"=="14" start powershell.exe -executionpolicy unrestricted ".\script
 if "%choice%"=="15" start powershell.exe -executionpolicy unrestricted ".\scripts\Verify_or_Create_EmulationStation_Folders.ps1"
 if "%choice%"=="16" start powershell.exe -executionpolicy unrestricted ".\scripts\Zip_Files2Zip.ps1"
 if "%choice%"=="17" start powershell.exe -executionpolicy unrestricted ".\scripts\Zip_Folders2Zip.ps1"
+if "%choice%"=="18" start powershell.exe -executionpolicy unrestricted ".\scripts\Diff-Files2Files-Normalized.ps1"
 
 goto input
