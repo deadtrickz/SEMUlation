@@ -32,6 +32,8 @@ echo %ESC%[92m15: Verify or Create EmulationStation Folders%ESC%[0m
 echo %ESC%[92m16: Zip Files to Zip%ESC%[0m
 echo %ESC%[92m17: Zip Folders to Zip%ESC%[0m
 echo %ESC%[92m18: Diff FILES - NORMALIZE NAMES%ESC%[0m
+echo %ESC%[92m19: LB-Rename-Flatten_media_files%ESC%[0m
+echo %ESC%[92m20: MOVE_Remote_Rom_Videos_to_Local_Folder-LOOSE%ESC%[0m
 
 echo %ESC%[91mPress "Q" to Quit%ESC%[0m
 
@@ -49,7 +51,7 @@ if "%choice%"=="5" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestrict
 if "%choice%"=="6" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\Find_DuplicateNames.ps1"
 if "%choice%"=="7" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\Find_DuplicateSizes.ps1"
 if "%choice%"=="8" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\Launchbox-RenameMedia2Filename-NO-FOLDER-LIMITATIONS.ps1"
-if "%choice%"=="9" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\Launchbox-RenameMedia2Filename.ps1"
+if "%choice%"=="9" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\Launchbox-RenameMedia2Filename.ps1"
 if "%choice%"=="10" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\LB-Copy_Remote_Rom_Videos_to_Local_Folder-LOOSE.ps1"
 if "%choice%"=="11" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\LB-Rename_Media2Filename-FlattenChildFolderFiles.ps1"
 if "%choice%"=="12" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\LB-Rename_Media2Filename.ps1"
@@ -59,5 +61,7 @@ if "%choice%"=="15" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestric
 if "%choice%"=="16" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\Zip_Files2Zip.ps1"
 if "%choice%"=="17" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\Zip_Folders2Zip.ps1"
 if "%choice%"=="18" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\Diff-Files2Files-Normalized.ps1"
+if "%choice%"=="19" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\LB-Rename-Flatten_media_files.ps1"
+if "%choice%"=="20" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\MOVE_Remote_Rom_Videos_to_Local_Folder-LOOSE.ps1"
 
 goto input
