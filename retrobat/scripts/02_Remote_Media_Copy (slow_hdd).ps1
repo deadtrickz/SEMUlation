@@ -41,6 +41,8 @@ function Test-Folder {
 
 function Update-System {
     param ($system)
+    Write-Host "Processing [$system]..."
+
     $localPath = Join-Path $localRoot $system
     $remotePath = Join-Path $remoteRoot $system
 
@@ -59,6 +61,7 @@ function Update-System {
 
     foreach ($rom in $romDict.Keys) {
         $clean = $romDict[$rom]
+        $missing = @()
 
         foreach ($type in $imageTypes) {
             $files = if (Test-Path -LiteralPath $remoteImages) { Get-ChildItem -LiteralPath $remoteImages -File } else { @() }
@@ -66,9 +69,11 @@ function Update-System {
 
             if ($match) {
                 $dest = Join-Path $localImages "$rom-$type$($match.Extension)"
-                if (!(Test-Path -LiteralPath $dest)) { Copy-Item -LiteralPath $match.FullName -Destination $dest }
+                if (!(Test-Path -LiteralPath $dest)) {
+                    Copy-Item -LiteralPath $match.FullName -Destination $dest
+                }
             } else {
-                $missingMedia[$system][$rom] += "-$type"
+                $missing += "-$type"
             }
         }
 
@@ -77,16 +82,25 @@ function Update-System {
 
         if ($videoMatch) {
             $videoDest = Join-Path $localVideos "$rom-$videoType$($videoMatch.Extension)"
-            if (!(Test-Path -LiteralPath $videoDest)) { Copy-Item -LiteralPath $videoMatch.FullName -Destination $videoDest }
+            if (!(Test-Path -LiteralPath $videoDest)) {
+                Copy-Item -LiteralPath $videoMatch.FullName -Destination $videoDest
+            }
         } else {
-            $missingMedia[$system][$rom] += "-$videoType"
+            $missing += "-$videoType"
+        }
+
+        if ($missing.Count -gt 0) {
+            if (-not $missingMedia.ContainsKey($system)) { $missingMedia[$system] = @{} }
+            $missingMedia[$system][$rom] = $missing
         }
     }
 }
 
+# Only process systems present in local folder
 foreach ($system in $subDirectories) {
-    if (-not $missingMedia.ContainsKey($system)) { $missingMedia[$system] = @{} }
-    Update-System $system
+    if (Test-Path -LiteralPath (Join-Path $localRoot $system)) {
+        Update-System $system
+    }
 }
 
 # Report
@@ -96,8 +110,11 @@ if ($missingMedia.Values | Where-Object { $_.Count -gt 0 }) {
         if ($missingMedia[$system].Count -eq 0) { continue }
         Write-Host "[$system]"
         foreach ($rom in $missingMedia[$system].Keys) {
-            $types = ($missingMedia[$system][$rom] | Sort-Object) -join ", "
-            Write-Host "$rom ($types)"
+            $missing = $missingMedia[$system][$rom]
+            if ($missing.Count -gt 0) {
+                $types = ($missing | Sort-Object) -join ", "
+                Write-Host "$rom ($types)"
+            }
         }
         Write-Host ""
     }

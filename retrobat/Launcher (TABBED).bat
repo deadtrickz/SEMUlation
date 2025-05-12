@@ -15,8 +15,9 @@ echo %ESC%[93m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^%ESC%[0m
 
 :: Display menu options in green
 echo %ESC%[92m1: Find Missing Videos%ESC%[0m
-echo %ESC%[92m2: Remote Media Copy - LOOSE%ESC%[0m
-echo %ESC%[92m3: Match Media To Rom Names, Copy To Destination Folder - STRICT%ESC%[0m
+echo %ESC%[92m2: Remote Media Copy - Slower - For Local HDD%ESC%[0m
+echo %ESC%[92m3: Remote Media Copy - Faster - For Neworks%ESC%[0m
+echo %ESC%[92m34: Match Media To Rom Names, Copy To Destination Folder - STRICT%ESC%[0m
 echo %ESC%[92m4: Find Duplicate Named Files, Uses Filename Normalization%ESC%[0m
 echo %ESC%[92m5: Find Files With Same File Sizes%ESC%[0m
 echo %ESC%[92m6: Diff Files In Two Folders - LOOSE%ESC%[0m
@@ -41,8 +42,9 @@ if /i "!choice!"=="Q" goto :EOF
 
 :: Handle choices
 if "%choice%"=="1" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\01_Find_Missing_Videos.ps1"
-if "%choice%"=="2" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\02_Remote_Media_Copy.ps1"
-if "%choice%"=="3" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\03_Generic_Match_Media_With_Rom_Name-STRICT.ps1"
+if "%choice%"=="2" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\02_Remote_Media_Copy (slow_hdd).ps1"
+if "%choice%"=="3" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\03_Remote_Media_Copy (fast_network).ps1"
+if "%choice%"=="34" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\03_Generic_Match_Media_With_Rom_Name-STRICT.ps1"
 if "%choice%"=="4" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\04_Find_DuplicateNames.ps1"
 if "%choice%"=="5" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\05_Find_DuplicateSizes.ps1"
 if "%choice%"=="6" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\06_Diff-Files2Files_LOOSE.ps1"
