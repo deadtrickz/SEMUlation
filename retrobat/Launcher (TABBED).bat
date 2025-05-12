@@ -42,8 +42,8 @@ if /i "!choice!"=="Q" goto :EOF
 
 :: Handle choices
 if "%choice%"=="1" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\01_Find_Missing_Videos.ps1"
-if "%choice%"=="2" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\02_Remote_Media_Copy (slow_hdd).ps1"
-if "%choice%"=="3" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\03_Remote_Media_Copy (fast_network).ps1"
+if "%choice%"=="2" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\02_Remote_Media_Copy_(slow_hdd).ps1"
+if "%choice%"=="3" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\03_Remote_Media_Copy_(fast_network).ps1"
 if "%choice%"=="34" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\03_Generic_Match_Media_With_Rom_Name-STRICT.ps1"
 if "%choice%"=="4" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\04_Find_DuplicateNames.ps1"
 if "%choice%"=="5" wt -w 0 nt -d %CD% powershell.exe -executionpolicy unrestricted ".\scripts\05_Find_DuplicateSizes.ps1"
