@@ -29,7 +29,7 @@ $cboFrontendUsing = New-Object Windows.Forms.ComboBox
 $cboFrontendUsing.Location = New-Object Drawing.Point(150, 18)
 $cboFrontendUsing.Size = New-Object Drawing.Size(220, 22)
 $cboFrontendUsing.DropDownStyle = 'DropDownList'
-$cboFrontendUsing.Items.AddRange(@("Batocera", "EmuDeck", "LaunchBox", "RetroBat", "RetroDeck", "RGS"))
+$cboFrontendUsing.Items.AddRange(@("Batocera", "EmuDeck", "LaunchBox", "RetroBat", "RetroDeck"))
 $cboFrontendUsing.SelectedIndex = 3  # RetroBat default
 $form.Controls.Add($cboFrontendUsing)
 
@@ -43,7 +43,7 @@ $cboFrontendFrom = New-Object Windows.Forms.ComboBox
 $cboFrontendFrom.Location = New-Object Drawing.Point(150, 53)
 $cboFrontendFrom.Size = New-Object Drawing.Size(220, 22)
 $cboFrontendFrom.DropDownStyle = 'DropDownList'
-$cboFrontendFrom.Items.AddRange(@("Batocera", "EmuDeck", "LaunchBox", "RetroBat", "RetroDeck", "RGS"))
+$cboFrontendFrom.Items.AddRange(@("Batocera", "EmuDeck", "LaunchBox", "RetroBat", "RetroDeck"))
 $cboFrontendFrom.SelectedIndex = 3  # RetroBat default
 $form.Controls.Add($cboFrontendFrom)
 
@@ -143,9 +143,6 @@ function Update-HintText {
         'RetroDeck' {
             $lines += "RetroDeck (source): <root>\downloaded_media\<system>\{screenshots|marquees|covers|videos}"
         }
-        'RGS' {
-            $lines += "RGS (source): <root>\<system>\media\{images|marquee|box2d|videos} (filenames use -image/-marquee/-thumb/-video)"
-        }
         default {
             $lines += "Flat (source): <root>\<system>\images and \videos with -image/-marquee/-thumb/-video"
         }
@@ -161,9 +158,6 @@ function Update-HintText {
             $lines += "RetroDeck (dest): requires “Optional Local Media Path”. Media written to <that>\downloaded_media\<system>\{screenshots|marquees|covers|videos}."
             $lines += "Typical Linux location (FYI):"
             $lines += "  ~/.var/app/net.retrodeck.retrodeck/config/emulationstation/downloaded_media/"
-        }
-        'RGS' {
-            $lines += "RGS (dest): writes to <roms>\<system>\media\{images|marquee|box2d|videos} using -image/-marquee/-thumb/-video suffixes."
         }
         default {
             $lines += "Destination uses your frontend’s normal layout."
@@ -186,6 +180,8 @@ Update-HintText -usingFE $cboFrontendUsing.SelectedItem -fromFE $cboFrontendFrom
 
 # ---------- Canonical systems/media ----------
 $SystemCanonical = @{
+  # --- Consoles you already had (kept) ---
+  "genesis"       = @{ RetroBat="megadrive";      Batocera="megadrive";      EmuDeck="genesis";        RetroDeck="genesis";        LaunchBox="Sega Genesis" }
   "mame"          = @{ RetroBat="mame";           Batocera="mame";           EmuDeck="mame";           RetroDeck="mame";           LaunchBox="Arcade" }
   "n64"           = @{ RetroBat="n64";            Batocera="n64";            EmuDeck="n64";            RetroDeck="n64";            LaunchBox="Nintendo 64" }
   "nes"           = @{ RetroBat="nes";            Batocera="nes";            EmuDeck="nes";            RetroDeck="nes";            LaunchBox="Nintendo Entertainment System" }
@@ -195,6 +191,7 @@ $SystemCanonical = @{
   "gba"           = @{ RetroBat="gba";            Batocera="gba";            EmuDeck="gba";            RetroDeck="gba";            LaunchBox="Nintendo Game Boy Advance" }
   "gb"            = @{ RetroBat="gb";             Batocera="gb";             EmuDeck="gb";             RetroDeck="gb";             LaunchBox="Nintendo Game Boy" }
   "gbc"           = @{ RetroBat="gbc";            Batocera="gbc";            EmuDeck="gbc";            RetroDeck="gbc";            LaunchBox="Nintendo Game Boy Color" }
+  "mastersystem"  = @{ RetroBat="mastersystem";   Batocera="mastersystem";   EmuDeck="mastersystem";   RetroDeck="mastersystem";   LaunchBox="Sega Master System" }
   "snes"          = @{ RetroBat="snes";           Batocera="snes";           EmuDeck="snes";           RetroDeck="snes";           LaunchBox="Super Nintendo Entertainment System" }
   "3do"           = @{ RetroBat="3do";            Batocera="3do";            EmuDeck="3do";            RetroDeck="3do";            LaunchBox="3DO Interactive Multiplayer" }
   "ags"           = @{ RetroBat="ags";            Batocera="ags";            EmuDeck="ags";            RetroDeck="ags";            LaunchBox="Adventure Game Studio" }
@@ -254,7 +251,6 @@ $SystemCanonical = @{
   "gamecom"       = @{ RetroBat="gamecom";        Batocera="gamecom";        EmuDeck="gamecom";        RetroDeck="gamecom";        LaunchBox="Tiger Game.com" }
   "gamecube"      = @{ RetroBat="gamecube";       Batocera="gamecube";       EmuDeck="gamecube";       RetroDeck="gamecube";       LaunchBox="Nintendo GameCube" }
   "gamegear"      = @{ RetroBat="gamegear";       Batocera="gamegear";       EmuDeck="gamegear";       RetroDeck="gamegear";       LaunchBox="Sega Game Gear" }
-  "genesis"       = @{ RetroBat="megadrive";      Batocera="megadrive";      EmuDeck="genesis";        RetroDeck="genesis";        LaunchBox="Sega Genesis" }
   "gx4000"        = @{ RetroBat="gx4000";         Batocera="gx4000";         EmuDeck="gx4000";         RetroDeck="gx4000";         LaunchBox="Amstrad GX4000" }
   "intellivision" = @{ RetroBat="intellivision";  Batocera="intellivision";  EmuDeck="intellivision";  RetroDeck="intellivision";  LaunchBox="Mattel Intellivision" }
   "j2me"          = @{ RetroBat="j2me";           Batocera="j2me";           EmuDeck="j2me";           RetroDeck="j2me";           LaunchBox="Java 2 Micro Edition" }
@@ -282,7 +278,7 @@ $SystemCanonical = @{
   "msxturbor"     = @{ RetroBat="msxturbor";      Batocera="msxturbor";      EmuDeck="msxturbor";      RetroDeck="msxturbor";      LaunchBox="MSX Turbo R" }
   "mugen"         = @{ RetroBat="mugen";          Batocera="mugen";          EmuDeck="mugen";          RetroDeck="mugen";          LaunchBox="M.U.G.E.N" }
   "multivision"   = @{ RetroBat="multivision";    Batocera="multivision";    EmuDeck="multivision";    RetroDeck="multivision";    LaunchBox="Othello Multivision" }
-  "n3ds"          = @{ RetroBat="3ds";            Batocera="n3ds";           EmuDeck="n3ds";           RetroDeck="n3ds";           LaunchBox="Nintendo 3DS" }
+  "n3ds"          = @{ RetroBat="n3ds";           Batocera="n3ds";           EmuDeck="n3ds";           RetroDeck="n3ds";           LaunchBox="Nintendo 3DS" }
   "n64dd"         = @{ RetroBat="n64dd";          Batocera="n64dd";          EmuDeck="n64dd";          RetroDeck="n64dd";          LaunchBox="Nintendo 64DD" }
   "naomi"         = @{ RetroBat="naomi";          Batocera="naomi";          EmuDeck="naomi";          RetroDeck="naomi";          LaunchBox="Sega NAOMI" }
   "naomigd"       = @{ RetroBat="naomigd";        Batocera="naomigd";        EmuDeck="naomigd";        RetroDeck="naomigd";        LaunchBox="Sega NAOMI GD-ROM" }
@@ -308,11 +304,11 @@ $SystemCanonical = @{
   "primehacks"    = @{ RetroBat="primehacks";     Batocera="primehacks";     EmuDeck="primehacks";     RetroDeck="primehacks";     LaunchBox="PrimeHack" }
   "ps3"           = @{ RetroBat="ps3";            Batocera="ps3";            EmuDeck="ps3";            RetroDeck="ps3";            LaunchBox="Sony PlayStation 3" }
   "ps4"           = @{ RetroBat="ps4";            Batocera="ps4";            EmuDeck="ps4";            RetroDeck="ps4";            LaunchBox="Sony PlayStation 4" }
-  "psvita"        = @{ RetroBat="psvita";         Batocera="psvita";         EmuDeck="psvita";         RetroDeck="psvita";         LaunchBox="Sony PlayStation Vita" }
   "pv1000"        = @{ RetroBat="pv1000";         Batocera="pv1000";         EmuDeck="pv1000";         RetroDeck="pv1000";         LaunchBox="Casio PV-1000" }
   "quake"         = @{ RetroBat="quake";          Batocera="quake";          EmuDeck="quake";          RetroDeck="quake";          LaunchBox="Quake" }
   "remoteplay"    = @{ RetroBat="remoteplay";     Batocera="remoteplay";     EmuDeck="remoteplay";     RetroDeck="remoteplay";     LaunchBox="Remote Play" }
   "samcoupe"      = @{ RetroBat="samcoupe";       Batocera="samcoupe";       EmuDeck="samcoupe";       RetroDeck="samcoupe";       LaunchBox="SAM Coupé" }
+  "satellaview"   = @{ RetroBat="satellaview";    Batocera="satellaview";    EmuDeck="satellaview";    RetroDeck="satellaview";    LaunchBox="Nintendo Satellaview" }
   "saturn"        = @{ RetroBat="saturn";         Batocera="saturn";         EmuDeck="saturn";         RetroDeck="saturn";         LaunchBox="Sega Saturn" }
   "saturnjp"      = @{ RetroBat="saturnjp";       Batocera="saturnjp";       EmuDeck="saturnjp";       RetroDeck="saturnjp";       LaunchBox="Sega Saturn (Japan)" }
   "scummvm"       = @{ RetroBat="scummvm";        Batocera="scummvm";        EmuDeck="scummvm";        RetroDeck="scummvm";        LaunchBox="ScummVM" }
@@ -327,7 +323,6 @@ $SystemCanonical = @{
   "snesna"        = @{ RetroBat="snesna";         Batocera="snesna";         EmuDeck="snesna";         RetroDeck="snesna";         LaunchBox="Super Nintendo (North America)" }
   "solarus"       = @{ RetroBat="solarus";        Batocera="solarus";        EmuDeck="solarus";        RetroDeck="solarus";        LaunchBox="Solarus" }
   "spectravideo"  = @{ RetroBat="spectravideo";   Batocera="spectravideo";   EmuDeck="spectravideo";   RetroDeck="spectravideo";   LaunchBox="Spectravideo" }
-  "satellaview"   = @{ RetroBat="satellaview";    Batocera="satellaview";    EmuDeck="satellaview";    RetroDeck="satellaview";    LaunchBox="Nintendo Satellaview" }
   "steam"         = @{ RetroBat="steam";          Batocera="steam";          EmuDeck="steam";          RetroDeck="steam";          LaunchBox="Steam" }
   "stratagus"     = @{ RetroBat="stratagus";      Batocera="stratagus";      EmuDeck="stratagus";      RetroDeck="stratagus";      LaunchBox="Stratagus" }
   "sufami"        = @{ RetroBat="sufami";         Batocera="sufami";         EmuDeck="sufami";         RetroDeck="sufami";         LaunchBox="Sufami Turbo" }
@@ -364,12 +359,6 @@ $SystemCanonical = @{
   "zxspectrum"    = @{ RetroBat="zxspectrum";     Batocera="zxspectrum";     EmuDeck="zxspectrum";     RetroDeck="zxspectrum";     LaunchBox="Sinclair ZX Spectrum" }
 }
 
-# --- make RGS identical to RetroBat in the canonical map ---
-foreach ($canon in $SystemCanonical.Keys) {
-    if ($SystemCanonical[$canon].ContainsKey('RetroBat')) {
-        $SystemCanonical[$canon]['RGS'] = $SystemCanonical[$canon]['RetroBat']
-    }
-}
 
 $CanonicalIndex = @{}
 foreach ($canon in $SystemCanonical.Keys) {
@@ -408,22 +397,17 @@ function From-Canonical {
 # ---------- Destination systems to scan (list only) ----------
 function Get-Systems {
     param([string]$frontend)
-
-    # Build the list dynamically from $SystemCanonical so every frontend stays in sync.
-    # Assumes you've already added RGS entries (mirroring RetroBat) in $SystemCanonical.
-    $systems = @()
-
-    foreach ($canon in $SystemCanonical.Keys) {
-        if ($SystemCanonical[$canon].ContainsKey($frontend)) {
-            $name = $SystemCanonical[$canon][$frontend]
-            if ($name) { $systems += $name }
+    switch ($frontend) {
+        'RetroBat' {
+            ,@("3do","ags","amiga","amiga1200","amiga600","amigacd32","amstradcpc","android","apple2","apple2gs","arcade","arcadia","arduboy","astrocde","atari2600","atari5200","atari7800","atari800","atarijaguar","atarijaguarcd","atarilynx","atarist","atarixe","atomiswave","bbcmicro","c16","c64","cavestory","cdimono1","cdtv","chailove","channelf","cloud","coco","colecovision","cps","cps1","cps2","cps3","crvision","daphne","desktop","doom","dos","dragon32","dreamcast","easyrpg","epic","famicom","fba","fbneo","fds","flash","fmtowns","gameandwatch","gamecom","gamegear","gb","gba","gbc","gamecube","gx4000","intellivision","j2me","kodi","lcdgames","lutris","lutro","macintosh","mame","mame-advmame","mame-mame4all","mastersystem","megacd","megacdjp","megadrive","megadrivejp","megaduck","mess","model2","model3","moonlight","moto","msx","msx1","msx2","msxturbor","mugen","multivision","n3ds","n64","n64dd","naomi","naomigd","nds","neogeo","neogeocd","neogeocdjp","nes","ngp","ngpc","odyssey2","openbor","oric","palm","pc","pc88","pc98","pcengine","pcenginecd","pcfx","pico8","pokemini","ports","primehacks","ps2","ps3","ps4","psp","psvita","psx","pv1000","quake","remoteplay","samcoupe","satellaview","saturn","saturnjp","scummvm","sega32x","sega32xjp","sega32xna","segacd","sfc","sg-1000","sgb","snes","sneshd","snesna","solarus","spectravideo","steam","stratagus","sufami","supergrafx","supervision","switch","symbian","tanodragon","tg-cd","tg16","ti99","tic80","to8","trs-80","uzebox","vectrex","vic20","videopac","virtualboy","vsmile","wasm4","wii","wiiu","windows","wonderswan","wonderswancolor","x1","x68000","xbox","xbox360","xbla","zmachine","zx81","zxspectrum")
         }
+        'Batocera'  { ,@('nes','snes','megadrive','gba','n64') }
+        'EmuDeck'   { ,@('nes','snes','genesis','gba','n64') }
+        'RetroDeck' { ,@('nes','snes','genesis','gba','n64') }
+        'LaunchBox' { ,@('Nintendo Entertainment System','Super Nintendo Entertainment System','Sega Genesis','Nintendo Game Boy Advance','Nintendo 64','Arcade') }
+        default     { ,@() }
     }
-
-    # Return as a proper array, sorted and unique
-    ,@($systems | Sort-Object -Unique)
 }
-
 
 # ---------- Where to scan ROMs for each frontend ----------
 function Get-LocalSystemRoot {
@@ -487,21 +471,6 @@ function Get-SourceSchema {
                 Video        = @{ MatchMode='Suffix'; Suffix='video'; Folder='videos'; Subfolders=$null }
             }
         }
-        'RGS' {
-            # <remoteRoot>\<system>\media\{images|marquee|box2d|videos}; filenames end with -image/-marquee/-thumb/-video
-            return @{
-                SourceMode   = 'Flat'
-                ImageTypes   = @('screenshot','marquee','boxfront')
-                VideoPresent = $true
-                Images       = @{
-                    'screenshot' = @{ MatchMode='Suffix'; Suffix='image';   Folder='media\images';  Subfolders=$null }
-                    'marquee'    = @{ MatchMode='Suffix'; Suffix='marquee'; Folder='media\marquee'; Subfolders=$null }
-                    'boxfront'   = @{ MatchMode='Suffix'; Suffix='thumb';   Folder='media\box2d';   Subfolders=$null }
-                }
-                Video        = @{ MatchMode='Suffix'; Suffix='video'; Folder='media\videos'; Subfolders=$null }
-            }
-        }
-
 
         default {
             # Flat <system>\images|videos
@@ -602,27 +571,6 @@ function Get-DestSchema {
                 VideoPresent    = $true
                 # NOTE: no suffix, and put into 'videos' subfolder
                 Video           = @{ FilePattern='{rom}{ext}'; Suffix=$null; Subfolder='videos' }
-            }
-        }
-        
-        'RGS' {
-            # Destination under <localSystemRoot>\media\<type>, keep RetroBat-style suffixes in filenames
-            $mediaBase = Join-Path $localSystemRoot 'media'
-            return @{
-                Mode            = 'Centralized'           # use ImagesBase/VideosBase + Subfolder
-                ImagesRoot      = $null
-                VideosRoot      = $null
-                ImagesBase      = $mediaBase
-                VideosBase      = $mediaBase
-                ImagesInRomRoot = $false
-                ImageTypes      = @('screenshot','marquee','boxfront')
-                Images          = @{
-                    'screenshot' = @{ FilePattern='{rom}-{suffix}{ext}'; Suffix='image';   Subfolder='images'  }
-                    'marquee'    = @{ FilePattern='{rom}-{suffix}{ext}'; Suffix='marquee'; Subfolder='marquee' }
-                    'boxfront'   = @{ FilePattern='{rom}-{suffix}{ext}'; Suffix='thumb';   Subfolder='box2d'   }
-                }
-                VideoPresent    = $true
-                Video           = @{ FilePattern='{rom}-{suffix}{ext}'; Suffix='video'; Subfolder='videos' }
             }
         }
 
@@ -1084,5 +1032,3 @@ $btn.Add_Click({
 })
 
 [void]$form.ShowDialog()
-
-# v.83
